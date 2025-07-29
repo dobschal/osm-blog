@@ -25,19 +25,35 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 app.get('/{*splat}', async (req, res) => {
-    console.log("Query:", req.query);
     const {weekNr} = await getLeague();
     const weekNumber = Number(req.query.week_nr || weekNr);
     const matches = await getMatches();
     const teams = await getTeams();
     const standing = calculateStanding(matches, weekNumber, teams);
     const articles = readData("articles");
-    console.log("Articles:", articles);
     res.render("index", {
-        matches, teams, standing, weekNumber, articles: articles.reverse()
+        matches, teams, standing, weekNumber, articles: sortArticlesByDate(articles)
     });
 })
 
 app.listen(port, () => {
     console.log(` ⚡️ OSM Blog website running on port ${port}`)
 })
+
+function sortArticlesByDate(articles) {
+    return articles.sort((a, b) => toDate(b.date) - toDate(a.date)).map(article => {
+        const date = toDate(article.date);
+        article.date = date.toLocaleDateString("de-DE", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+        return article;
+    });
+}
+
+function toDate(dateString) {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+}
