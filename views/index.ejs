@@ -62,30 +62,32 @@
 
     <article>
         <h2>Tabelle am <%= weekNumber %>. Spieltag</h2>
-        <table>
+        <div style="overflow-x: auto;">
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Team</th>
+                    <th>Punkte</th>
+                    <th>Spiele</th>
+                    <th>Tore</th>
+                    <th>Gegentore</th>
+                </tr>
+            <%
+            let i = 0;
+            for(const team of standing) {
+                i++;
+            %>
             <tr>
-                <th>#</th>
-                <th>Team</th>
-                <th>Punkte</th>
-                <th>Spiele</th>
-                <th>Tore</th>
-                <th>Gegentore</th>
+                <td><%= i %></td>
+                <td><%= team.name %></td>
+                <td><%= team.points %></td>
+                <td><%= team.matchesPlayed %></td>
+                <td><%= team.goalsFor %></td>
+                <td><%= team.goalsAgainst %></td>
             </tr>
-        <%
-        let i = 0;
-        for(const team of standing) {
-            i++;
-        %>
-        <tr>
-            <td><%= i %></td>
-            <td><%= team.name %></td>
-            <td><%= team.points %></td>
-            <td><%= team.matchesPlayed %></td>
-            <td><%= team.goalsFor %></td>
-            <td><%= team.goalsAgainst %></td>
-        </tr>
-        <% } %>
-        </table>
+            <% } %>
+            </table>
+        </div>
     </article>
 
     <article>
