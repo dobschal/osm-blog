@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+    <title><%= articles[0].title %></title>
+    <meta name="description" content="<%= articles[0].text.substring(0, 150) %>..." />
+    <meta property="og:title" content="<%= articles[0].title %>" />
+    <meta property="og:url" content="https://soccermanager.io/" />
+    <meta property="og:description" content="<%= articles[0].text.substring(0, 60) %>..." />
+    <meta property="og:image" content="https://soccermanager.io<%= articles[0].image %>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:locale" content="de_DE" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/pico.min.css" />
+    <style>
+        :root {
+            --pico-font-size: 17px;
+            --pico-form-element-spacing-vertical: 0.33rem;
+            --pico-font-family: "EB Garamond", serif;
+        }
+
+        svg:hover {
+            cursor: pointer;
+        }
+
+        h1 {
+            font-size: 500%;
+        }
+
+        h2, h3, label {
+            text-transform: capitalize;
+        }
+
+        .container {
+            padding: 2rem 0;
+        }
+    </style>
+    <script>
+        const MATCHES = <%- JSON.stringify(matches) %>;
+        const TEAMS = <%- JSON.stringify(teams) %>;
+        const WEEK_NUMBER = <%= weekNumber %>;
+    </script>
+    <script defer type="module" src="/client.js"></script>
+    <link href="/favicon.ico" rel="icon" type="image/x-icon">
+</head>
+
+<body>
+</body>
+
+<div class="container">
+    <h1>𐌏𐌔𐌌</h1>
+    <article>
+        <form action="/" method="get">
+            <label for="week_nr">Spieltag wählen:</label>
+            <input type="number" id="week_nr" name="week_nr" min="1" max="34" value="<%= weekNumber %>">
+        </form>
+    </article>
+
+    <article>
+        <h2>Tabelle am <%= weekNumber %>. Spieltag</h2>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Team</th>
+                <th>Punkte</th>
+                <th>Spiele</th>
+                <th>Tore</th>
+                <th>Gegentore</th>
+            </tr>
+        <%
+        let i = 0;
+        for(const team of standing) {
+            i++;
+        %>
+        <tr>
+            <td><%= i %></td>
+            <td><%= team.name %></td>
+            <td><%= team.points %></td>
+            <td><%= team.matchesPlayed %></td>
+            <td><%= team.goalsFor %></td>
+            <td><%= team.goalsAgainst %></td>
+        </tr>
+        <% } %>
+        </table>
+    </article>
+
+    <article>
+        <h2>Standing Pro Spieltag</h2>
+        <div style="overflow-x: auto;">
+            <div style="position: relative; height:80vh; width:100%; min-width: 900px;">
+                <canvas id="performance-chart"></canvas>
+            </div>
+        </div>
+    </article>
+
+    <h2>News</h2>
+    <% for(const article of articles.reverse()) {%>
+
+    <article style="clear: both; overflow: hidden">
+        <img src="<%= article.image_thumbnail %>" alt="<%= article.title %>" style="width: 33%; height: auto; float: left; margin-right: 1rem; margin-bottom: 1rem;"/>
+        <h3><%= article.title %></h3>
+        <p>
+            <small><%= article.date %></small><br>
+            <%- article.text.replace(/(?:\r\n|\r|\n)/g, '</p><p>') %>
+        </p>
+    </article>
+    <% } %>
+
+</div>
+
+</html>

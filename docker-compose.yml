@@ -1,0 +1,12 @@
+services:
+  schluend-website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - type: bind
+        source: ./.express_cms
+        target: /usr/src/app/.express_cms
+    ports:
+      - "3004:3004"
