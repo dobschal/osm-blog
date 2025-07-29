@@ -19,7 +19,7 @@ COPY . .
 RUN echo "Installing dependencies"
 RUN npm install
 
-EXPOSE 3004
+EXPOSE 3009
 
 RUN echo "Starting server"
 CMD ["npm", "start"]

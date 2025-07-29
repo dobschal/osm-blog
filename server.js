@@ -4,7 +4,7 @@ import {getLeague, getMatches, getTeams} from "./osm-client.js";
 import {calculateStanding} from "./osm-service.js";
 
 const app = express()
-const port = 3005
+const port = 3009
 
 cms(app, {
     models: {

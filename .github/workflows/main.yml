@@ -23,11 +23,11 @@ jobs:
           SSH_HOST: ${{ secrets.HOST }}
 
       - name: Check out the source
-        run: ssh hetzner 'cd /root/deployments/schluend-website && git fetch && git reset --hard origin/main && mkdir -p public/data'
+        run: ssh hetzner 'cd /root/deployments/osm-blog && git fetch && git reset --hard origin/main && mkdir -p public/data'
 
       - name: Stop old server and build new image
-        run: ssh hetzner 'cd /root/deployments/schluend-website && docker compose down schluend-website && docker compose build schluend-website --no-cache'
+        run: ssh hetzner 'cd /root/deployments/osm-blog && docker compose down osm-blog && docker compose build osm-blog --no-cache'
 
       - name: Start the server
         if: ${{ always() }}
-        run: ssh hetzner 'cd /root/deployments/schluend-website && docker compose up -d'
+        run: ssh hetzner 'cd /root/deployments/osm-blog && docker compose up -d'

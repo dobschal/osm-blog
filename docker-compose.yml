@@ -9,4 +9,4 @@ services:
         source: ./.express_cms
         target: /usr/src/app/.express_cms
     ports:
-      - "3004:3004"
+      - "3009:3009"
