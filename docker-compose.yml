@@ -1,5 +1,5 @@
 services:
-  schluend-website:
+  osm-blog:
     build:
       context: .
       dockerfile: Dockerfile
