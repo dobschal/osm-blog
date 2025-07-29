@@ -13,6 +13,10 @@ cms(app, {
             date: "date",
             text: "longtext",
             image: "image"
+        },
+        auth: {
+            refreshToken: "text",
+            accessToken: "text"
         }
     }
 });
@@ -30,7 +34,7 @@ app.get('/{*splat}', async (req, res) => {
     const articles = readData("articles");
     console.log("Articles:", articles);
     res.render("index", {
-        matches, teams, standing, weekNumber, articles
+        matches, teams, standing, weekNumber, articles: articles.reverse()
     });
 })
 

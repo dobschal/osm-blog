@@ -1,4 +1,3 @@
-
 /**
  * @typedef {object} GameResult
  * @property {string} id - Unique identifier for the game result, formatted as "leagueId_matchId_weekNr".
@@ -17,6 +16,7 @@
  * @property {boolean} isPlayedOnNeutralGround - Indicates if the match was played on neutral ground.
  * @property {boolean} isExtraTimePlayed - Indicates if extra time was played in the match.
  */
+import {readData, writeData } from "@dobschal/express-cms";
 
 const leagueId = "118223162";
 const auth = {
@@ -74,6 +74,11 @@ async function refreshToken() {
         console.log("Token refresh skipped, still valid.");
         return;
     }
+    const credentials = readData("auth");
+    if(credentials.length === 1) {
+        auth.refreshToken = credentials[0].refreshToken;
+        auth.token = credentials[0].accessToken;
+    }
     console.log("Refreshing token...");
     auth.lastTokenRefresh = Date.now();
     const formData = new FormData();
@@ -110,5 +115,10 @@ async function refreshToken() {
     const response = await rawResponse.json();
     auth.token = response.access_token;
     auth.refreshToken = response.refresh_token;
+    writeData("auth", {
+        id: credentials[0]?.id,
+        accessToken: auth.token,
+        refreshToken: auth.refreshToken
+    });
     console.log("New token:", auth.token);
 }

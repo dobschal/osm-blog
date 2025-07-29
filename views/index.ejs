@@ -98,7 +98,7 @@
     </article>
 
     <h2>News</h2>
-    <% for(const article of articles.reverse()) {%>
+    <% for(const article of articles) {%>
 
     <article style="clear: both; overflow: hidden">
         <img src="<%= article.image_thumbnail %>" alt="<%= article.title %>" style="width: 33%; height: auto; float: left; margin-right: 1rem; margin-bottom: 1rem;"/>
@@ -109,6 +109,8 @@
         </p>
     </article>
     <% } %>
+
+    <a href="/express-cms">🔑</a>
 
 </div>
 

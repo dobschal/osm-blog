@@ -3,12 +3,12 @@ import {Chart, registerables} from 'https://cdn.jsdelivr.net/npm/chart.js@4.5.0/
 Chart.register(...registerables);
 
 const COLORS = [
-    "darkgreen", // Red-Orange
+    "brown", // Red-Orange
     "green", // Green
     "blue", // Blue
     "pink", // Pink
     "purple", // Purple
-    "yellow", // Yellow
+    "gray", // Yellow
     "cyan", // Cyan
     "orange", // Orange
     "violet", // Violet
@@ -24,6 +24,11 @@ weekNrInput.addEventListener("change", async (event) => {
 
 console.log("Teams: ", TEAMS);
 console.log("Matches: ", MATCHES);
+
+const match = MATCHES.find(match => match.weekNr === WEEK_NUMBER && match.matchType === 0);
+if(!match?.matchData) {
+    alert("Der ausgewählte Spieltag wurde noch nicht gespielt.");
+}
 
 const datasets = TEAMS.filter(team => !!team.userId).map((team, index) => {
     const data = [];

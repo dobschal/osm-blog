@@ -10,7 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@dobschal/express-cms": "^1.0.7",
+    "@dobschal/express-cms": "^1.0.8",
     "ejs": "^3.1.10",
     "express": "^5.1.0"
   },
