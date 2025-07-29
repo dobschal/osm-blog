@@ -41,22 +41,22 @@ export async function getTeams() {
 
 async function requestOsm(path) {
     await refreshToken();
-    const myHeaders = new Headers();
-    myHeaders.append("accept", "application/json; charset=utf-8");
-    myHeaders.append("accept-language", "en-GB, en-GB");
-    myHeaders.append("appversion", "3.231.0");
-    myHeaders.append("content-type", "application/json");
-    myHeaders.append("platformid", "14");
-    myHeaders.append("priority", "u=1, i");
-    myHeaders.append("sec-ch-ua", "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\"");
-    myHeaders.append("sec-ch-ua-mobile", "?0");
-    myHeaders.append("sec-ch-ua-platform", "\"macOS\"");
-    myHeaders.append("sec-fetch-dest", "empty");
-    myHeaders.append("sec-fetch-mode", "cors");
-    myHeaders.append("sec-fetch-site", "same-site");
-    myHeaders.append("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36");
-    myHeaders.append("Authorization", `Bearer ${auth.token}`);
-    // myHeaders.append("Cookie", "__cf_bm=kw43rucdnOjL54a1332ZaUyb4Mk59FzZHtA4yPGFav8-1753706481-1.0.1.1-7Vq5aihrc6PjH_.kBE.CXhEzsNB.b67HRaDE5lpxTHmape1diD.xVzzL8BWdZy2f4Kke6p7aggszI4AZ_WvQen1ndPuVZc7g5KYVzv684ok");
+    const myHeaders = {
+        "accept": "application/json; charset=utf-8",
+        "accept-language": "en-GB, en-GB",
+        "appversion": "3.231.0",
+        "content-type": "application/json",
+        "platformid": "14",
+        "priority": "u=1, i",
+        "sec-ch-ua": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+        "Authorization": `Bearer ${auth.token}`
+    };
 
     const requestOptions = {
         method: "GET",
