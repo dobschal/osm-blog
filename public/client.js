@@ -25,10 +25,10 @@ weekNrInput.addEventListener("change", async (event) => {
 console.log("Teams: ", TEAMS);
 console.log("Matches: ", MATCHES);
 
-const match = MATCHES.find(match => match.weekNr === WEEK_NUMBER && match.matchType === 0);
-if(!match?.matchData) {
-    alert("Der ausgewählte Spieltag wurde noch nicht gespielt.");
-}
+// const match = MATCHES.find(match => match.weekNr === WEEK_NUMBER && match.matchType === 0);
+// if(!match?.matchData) {
+//     alert("Der ausgewählte Spieltag wurde noch nicht gespielt.");
+// }
 
 const datasets = TEAMS.filter(team => !!team.userId).map((team, index) => {
     const data = [];
