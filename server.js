@@ -1,5 +1,5 @@
 import express from 'express';
-import cms, {readData} from "@dobschal/express-cms";
+import cms, {readData, writeData} from "@dobschal/express-cms";
 import {getLeague, getMatches, getTeams} from "./osm-client.js";
 import {calculateStanding} from "./osm-service.js";
 
@@ -17,6 +17,10 @@ cms(app, {
         auth: {
             refreshToken: "text",
             accessToken: "text"
+        },
+        emojis: {
+            articleId: "text",
+            emoji: "text",
         }
     }
 });
@@ -31,10 +35,16 @@ app.get('/{*splat}', async (req, res) => {
     const teams = await getTeams();
     const standing = calculateStanding(matches, weekNumber, teams);
     const articles = readData("articles");
-    res.render("index", {
-        matches, teams, standing, weekNumber, articles: sortArticlesByDate(articles)
+    const emojis = readData("emojis");
+    res.render("johannes", {
+        matches, teams, standing, weekNumber, articles: sortArticlesByDate(articles), emojis
     });
 })
+
+app.post("/article/emoji", (req, res) => {
+    writeData("emojis", req.body);
+    res.send({ yeah: "uuuh" });
+});
 
 app.listen(port, () => {
     console.log(` ⚡️ OSM Blog website running on port ${port}`)

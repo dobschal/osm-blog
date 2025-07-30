@@ -38,6 +38,27 @@
         .container {
             padding: 2rem 0;
         }
+
+        .emoji {
+            width: 1rem;
+            height: 1rem;
+            font-size: 1rem;
+            line-height: 1rem;
+            text-align: center;
+        }
+
+        .emojis {
+            margin-bottom: 2rem;
+        }
+
+        .emoji-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            align-items: end;
+            justify-content: end;
+            flex-wrap: wrap;
+        }
     </style>
     <script>
         const MATCHES = <%- JSON.stringify(matches) %>;
@@ -101,13 +122,50 @@
 
     <h2 id="news">News</h2>
     <% for(const article of articles) {%>
-    <article style="clear: both; overflow: hidden">
-        <img src="<%= article.image %>" alt="<%= article.title %>" style="width: 33%; max-width: 250px; height: auto; float: left; margin-right: 1rem; margin-bottom: 1rem;"/>
+    <article id="article-<%= article.id %>" style="clear: both; overflow: hidden">
+        <img src="<%= article.image %>" alt="<%= article.title %>" style="width: 33%; height: auto; float: left; margin-right: 1rem; margin-bottom: 1rem;"/>
         <h3><%= article.title %></h3>
         <p>
             <small><%= article.date %></small><br>
             <%- article.text.replace(/(?:\r\n|\r|\n)/g, '</p><p>') %>
         </p>
+        <hr>
+        <p class="emojis">
+            Reaktionen:
+            <% for(const emoji of emojis.filter(emoji => emoji.articleId === article.id)) {%>
+                <span class="emoji"> <%= emoji.emoji %> </span>
+            <% } %>
+        </p>
+        <div class="emoji-buttons">
+            <% for(const emoji of ["👍", "❤️", "👏", "🚀", "😤", "💪", "🔥", "😭"]) {%>
+                <button class="contrast emoji-<%= article.id %>">
+                    <span class="emoji"><%= emoji %></span>
+                </button>
+            <% } %>
+        </div>
+        <script>
+            document.querySelectorAll(".emoji-<%= article.id %>")
+                .forEach(element => element.addEventListener("click", async () => {
+                    const emoji = element.querySelector(".emoji").textContent.trim();
+                    await fetch("/article/emoji", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            articleId: "<%= article.id %>",
+                            emoji
+                        }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    document.querySelector("#article-<%= article.id %> .emoji-buttons").remove();
+                    const emojiSpan = document.createElement("span");
+                    emojiSpan.className = "emoji";
+                    emojiSpan.textContent = emoji;
+                    document.querySelector("#article-<%= article.id %> .emojis").appendChild(emojiSpan);
+                    window.localStorage.setItem("article-<%= article.id %>-emoji", emoji);
+                }));
+            window.localStorage.getItem("article-<%= article.id %>-emoji") && document.querySelector("#article-<%= article.id %> .emoji-buttons").remove();
+        </script>
     </article>
     <% } %>
 
